@@ -63,6 +63,14 @@ class Arc_datatable {
 	private $use_key = false;
 
 	/**
+	 * default order value
+	 *
+	 * @var array
+	 */
+	private $default_order;
+
+
+	/**
 	 * Init library
 	 */
 	public function __construct()
@@ -282,6 +290,9 @@ class Arc_datatable {
 			$original_query = str_replace('__order_and__'," ORDER BY $column_order $order_dir, ", $original_query);
 			$original_query = str_replace('__and_order__',", $column_order $order_dir", $original_query);
 		}else{
+			if(!empty($this->default_order)){
+				$original_query = str_replace('__order__'," ORDER BY ".$this->default_order, $original_query);
+			}
 			$original_query = str_replace('__order__','', $original_query);
 			$original_query = str_replace('__order_and__',' ORDER BY ', $original_query);
 			$original_query = str_replace('__and_order__','', $original_query);
@@ -447,6 +458,11 @@ class Arc_datatable {
 		);
 
 		return $return;
+	}
+
+	public function set_default_order($default_order = NULL){
+		$this->default_order = $default_order;
+		return $this;
 	}
 
 }
